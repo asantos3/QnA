@@ -29,5 +29,9 @@ namespace QnA.Models
         {
             return new ApplicationDbContext();
         }
+
+        public virtual DbSet<Questions> Questions { get; set; }
+        public virtual DbSet<Answers> Answers { get; set; }
+        public virtual DbSet<Tags> Tags { get; set; }
     }
 }
