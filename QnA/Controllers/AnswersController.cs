@@ -11,60 +11,59 @@ using Microsoft.AspNet.Identity;
 
 namespace QnA.Controllers
 {
-    public class QuestionsController : Controller
+    public class AnswersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Questions
+        // GET: Answers
         public ActionResult Index()
         {
-            var questions = db.Questions.Include(q => q.User);
-            return View(questions.ToList());
+            var answers = db.Answers.Include(a => a.Question).Include(a => a.User);
+            return View(answers.ToList());
         }
 
-        // GET: Questions/Details/5
+        // GET: Answers/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Questions questions = db.Questions.Find(id);
-            if (questions == null)
+            Answers answers = db.Answers.Find(id);
+            if (answers == null)
             {
                 return HttpNotFound();
             }
-            return View(questions);
+            return View(answers);
         }
 
+        // GET: Answers/Create
         [Authorize]
-        // GET: Questions/Create
         public ActionResult Create()
         {
             return View();
         }
 
-
-        // POST: Questions/Create
+        // POST: Answers/Create
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Content,Date,Votes,Views,UserID")] Questions questions)
+        public ActionResult Create([Bind(Include = "QuestionID,Date,UserID,Content,Votes")] Answers answers)
         {
             if (ModelState.IsValid)
             {
-                questions.Date = DateTime.Now;
-                questions.Votes = 0;
-                questions.Views = 0;
-                questions.UserID = User.Identity.GetUserId();
-                db.Questions.Add(questions);
+                answers.QuestionID = 1; // test value
+                answers.Date = DateTime.Now;
+                answers.Votes = 0;
+                answers.UserID = User.Identity.GetUserId();
+                db.Answers.Add(answers);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(questions);
+            return View(answers);
         }
 
-        // GET: Questions/Edit/5
+        // GET: Answers/Edit/5
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -72,36 +71,36 @@ namespace QnA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Questions questions = db.Questions.Find(id);
-            if (questions == null)
+            Answers answers = db.Answers.Find(id);
+            if (answers == null)
             {
                 return HttpNotFound();
             }
-            return View(questions);
+            return View(answers);
         }
 
-        // POST: Questions/Edit/5
+        // POST: Answers/Edit/5
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Title,Content")] Questions questions)
+        public ActionResult Edit([Bind(Include = "ID,Content")] Answers answers)
         {
             if (ModelState.IsValid)
             {
-                var x = db.Questions.Where(u => u.ID == questions.ID).First();
-                questions.Date = x.Date;
-                questions.Votes = x.Votes;
-                questions.Views = x.Views;
-                questions.UserID = x.UserID;
+                var x = db.Answers.Where(u => u.ID == answers.ID).First();
+                answers.QuestionID = x.QuestionID;
+                answers.Date = x.Date;
+                answers.Votes = x.Votes;
+                answers.UserID = x.UserID;
 
-                db.Entry(x).CurrentValues.SetValues(questions);
+                db.Entry(x).CurrentValues.SetValues(answers);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(questions);
+            return View(answers);
         }
 
-        // GET: Questions/Delete/5
+        // GET: Answers/Delete/5
         [Authorize]
         public ActionResult Delete(int? id)
         {
@@ -109,22 +108,22 @@ namespace QnA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Questions questions = db.Questions.Find(id);
-            if (questions == null)
+            Answers answers = db.Answers.Find(id);
+            if (answers == null)
             {
                 return HttpNotFound();
             }
-            return View(questions);
+            return View(answers);
         }
 
-        // POST: Questions/Delete/5
+        // POST: Answers/Delete/5
         [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Questions questions = db.Questions.Find(id);
-            db.Questions.Remove(questions);
+            Answers answers = db.Answers.Find(id);
+            db.Answers.Remove(answers);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
