@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -33,5 +34,6 @@ namespace QnA.Models
         public virtual DbSet<Questions> Questions { get; set; }
         public virtual DbSet<Answers> Answers { get; set; }
         public virtual DbSet<Tags> Tags { get; set; }
+        public IEnumerable ApplicationUsers { get; internal set; }
     }
 }

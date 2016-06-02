@@ -29,8 +29,5 @@ namespace QnA.Models
 
         [Required]
         public int Votes { get; set; }
-
-        [Required]
-        public int Views { get; set; }
     }
 }
