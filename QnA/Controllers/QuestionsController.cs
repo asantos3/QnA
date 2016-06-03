@@ -37,13 +37,31 @@ namespace QnA.Controllers
             return View(questions);
         }
 
+        // POST: Questions/Details/5
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details([Bind(Include = "QuestionID,Date,UserID,Content,Votes")] Answers answers)
+        {
+            if (ModelState.IsValid)
+            {
+                answers.QuestionID = 1; // test value
+                answers.Date = DateTime.Now;
+                answers.Votes = 0;
+                answers.UserID = User.Identity.GetUserId();
+                db.Answers.Add(answers);
+                db.SaveChanges();
+                return RedirectToAction("Details");
+            }
+            return View(answers);
+        }
+
         [Authorize]
         // GET: Questions/Create
         public ActionResult Create()
         {
             return View();
         }
-
 
         // POST: Questions/Create
         [Authorize]
