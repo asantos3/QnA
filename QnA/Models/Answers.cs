@@ -12,6 +12,7 @@ namespace QnA.Models
         public int ID { get; set; }
 
         public virtual Questions Question { get; set; }
+        [Required]
         [ForeignKey("Question")]
         public int QuestionID { get; set; }
 
@@ -19,6 +20,7 @@ namespace QnA.Models
         [StringLength(5000)]
         public string Content { get; set; }
 
+        [Required]
         public DateTime Date { get; set; }
 
         [Required]

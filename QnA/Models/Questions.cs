@@ -12,7 +12,7 @@ namespace QnA.Models
         public Questions()
         {
             Answers = new HashSet<Answers>();
-            Tags = new HashSet<Tags>();
+            Tags = new HashSet<QuestionsTags>();
         }
 
         [Key]
@@ -40,6 +40,6 @@ namespace QnA.Models
         public string UserID { get; set; }
 
         public virtual ICollection<Answers> Answers { get; set; }
-        public virtual ICollection<Tags> Tags { get; set; }
+        public virtual ICollection<QuestionsTags> Tags { get; set; }
     }
 }
