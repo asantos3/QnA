@@ -71,6 +71,12 @@ namespace QnA.Controllers
         {
             if (ModelState.IsValid)
             {
+                var x = new QuestionsTags();
+                x.Tag = new Tags();
+                x.Tag.Name = "Teste"; // test value
+                x.Question = questions;
+                questions.Tags.Add(x);
+
                 questions.Date = DateTime.Now;
                 questions.Votes = 0;
                 questions.Views = 0;
