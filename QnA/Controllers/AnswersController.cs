@@ -52,7 +52,7 @@ namespace QnA.Controllers
         {
             if (ModelState.IsValid)
             {
-                answers.QuestionID = 1; // test value
+                answers.QuestionID = answers.QuestionID;
                 answers.Date = DateTime.Now;
                 answers.Votes = 0;
                 answers.UserID = User.Identity.GetUserId();

@@ -45,7 +45,6 @@ namespace QnA.Controllers
         {
             if (ModelState.IsValid)
             {
-                answers.QuestionID = 1; // test value
                 answers.Date = DateTime.Now;
                 answers.Votes = 0;
                 answers.UserID = User.Identity.GetUserId();
@@ -151,6 +150,39 @@ namespace QnA.Controllers
             db.Questions.Remove(questions);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Upvote(int id)
+        {
+            Questions questions = db.Questions.Find(id);
+            if (questions == null)
+            {
+                return HttpNotFound();
+            } else {
+                questions.Votes = questions.Votes + 1;
+                db.SaveChanges();
+                return RedirectToAction("Details/" + id);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Downvote(int id)
+        {
+            Questions questions = db.Questions.Find(id);
+            if (questions == null)
+            {
+                return HttpNotFound();
+            }
+            else {
+                questions.Votes = questions.Votes - 1;
+                db.SaveChanges();
+                return RedirectToAction("Details/"+id);
+            }
         }
 
         protected override void Dispose(bool disposing)

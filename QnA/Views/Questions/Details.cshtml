@@ -69,6 +69,20 @@
     </dl>
 </div>
 <p>
+    @using (@Html.BeginForm("Upvote", "Questions"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("id", Model.ID)
+        <input type="submit" value="+1" />
+    }
+    @using (@Html.BeginForm("Downvote", "Questions"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("id", Model.ID)
+        <input type="submit" value="-1" />
+    }
+</p>
+<p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
@@ -77,7 +91,6 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
         <h4>Answers</h4>
         <hr />
@@ -89,6 +102,7 @@
                 @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
             </div>
         </div>
+        @Html.Hidden("QuestionID", Model.ID)
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
