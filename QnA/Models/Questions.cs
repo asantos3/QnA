@@ -13,6 +13,7 @@ namespace QnA.Models
         {
             Answers = new HashSet<Answers>();
             Tags = new HashSet<QuestionsTags>();
+            QuestionsVotes = new HashSet<QuestionsVotes>();
         }
 
         [Key]
@@ -41,5 +42,6 @@ namespace QnA.Models
 
         public virtual ICollection<Answers> Answers { get; set; }
         public virtual ICollection<QuestionsTags> Tags { get; set; }
+        public virtual ICollection<QuestionsVotes> QuestionsVotes { get; set; }
     }
 }

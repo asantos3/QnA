@@ -180,10 +180,12 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Answers.cs" />
+    <Compile Include="Models\AnswersVotes.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Questions.cs" />
     <Compile Include="Models\QuestionsTags.cs" />
+    <Compile Include="Models\QuestionsVotes.cs" />
     <Compile Include="Models\Tags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

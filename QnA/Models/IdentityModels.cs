@@ -34,6 +34,8 @@ namespace QnA.Models
         public virtual DbSet<Questions> Questions { get; set; }
         public virtual DbSet<Answers> Answers { get; set; }
         public virtual DbSet<Tags> Tags { get; set; }
+        public virtual DbSet<QuestionsVotes> QuestionsVotes { get; set; }
+        public virtual DbSet<AnswersVotes> AnswersVotes { get; set; }
         public IEnumerable ApplicationUsers { get; internal set; }
     }
 }

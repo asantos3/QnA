@@ -152,34 +152,95 @@ namespace QnA.Controllers
             return RedirectToAction("Index");
         }
 
+        // Upvote a question
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Upvote(int id)
         {
             Questions questions = db.Questions.Find(id);
+            QuestionsVotes votes = db.QuestionsVotes.Find(id, User.Identity.GetUserId());
             if (questions == null)
             {
                 return HttpNotFound();
             } else {
-                questions.Votes = questions.Votes + 1;
+                if (votes == null)
+                {
+                    var x = new QuestionsVotes();
+                    x.QuestionID = id;
+                    x.UserID = User.Identity.GetUserId();
+                    x.VotedPositive = true;
+                    questions.QuestionsVotes.Add(x);
+                    questions.Votes = questions.Votes + 1;
+                } else {
+                    // upvote a question
+                    if (votes.VotedPositive == false && votes.VotedNegative == false)
+                    {
+                        votes.VotedPositive = true;
+                        questions.Votes = questions.Votes + 1;
+                    }
+                    // upvote a question voted down
+                    else if(votes.VotedPositive == false && votes.VotedNegative == true)
+                    {
+                        votes.VotedPositive = true;
+                        votes.VotedNegative = false;
+                        questions.Votes = questions.Votes + 2;
+                    }
+                    // eliminate a upvote given
+                    else if (votes.VotedPositive == true && votes.VotedNegative == false)
+                    {
+                        votes.VotedPositive = false;
+                        questions.Votes = questions.Votes - 1;
+                    }
+                }
                 db.SaveChanges();
                 return RedirectToAction("Details/" + id);
             }
         }
 
+        // Downvote a question
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Downvote(int id)
         {
             Questions questions = db.Questions.Find(id);
+            QuestionsVotes votes = db.QuestionsVotes.Find(id, User.Identity.GetUserId());
             if (questions == null)
             {
                 return HttpNotFound();
             }
             else {
-                questions.Votes = questions.Votes - 1;
+                if (votes == null)
+                {
+                    var x = new QuestionsVotes();
+                    x.QuestionID = id;
+                    x.UserID = User.Identity.GetUserId();
+                    x.VotedNegative = true;
+                    questions.QuestionsVotes.Add(x);
+                    questions.Votes = questions.Votes - 1;
+                }
+                else {
+                    // downvote a question
+                    if (votes.VotedPositive == false && votes.VotedNegative == false)
+                    {
+                        votes.VotedNegative = true;
+                        questions.Votes = questions.Votes - 1;
+                    }
+                    // downvote a question upvoted
+                    else if (votes.VotedPositive == true && votes.VotedNegative == false)
+                    {
+                        votes.VotedNegative = true;
+                        votes.VotedPositive = false;
+                        questions.Votes = questions.Votes - 2;
+                    }
+                    // eliminate a downvote given
+                    else if (votes.VotedPositive == false && votes.VotedNegative == true)
+                    {
+                        votes.VotedNegative = false;
+                        questions.Votes = questions.Votes + 1;
+                    }
+                }
                 db.SaveChanges();
                 return RedirectToAction("Details/"+id);
             }

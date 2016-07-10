@@ -1,10 +1,11 @@
 namespace QnA.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
 
-    public class QuestionsTags : DbContext
+    public class QuestionsVotes : DbContext
     {
         public virtual Questions Question { get; set; }
         [Key]
@@ -12,10 +13,16 @@ namespace QnA.Models
         [Column(Order = 1)]
         public int QuestionID { get; set; }
 
-        public virtual Tags Tag { get; set; }
+        public virtual ApplicationUser User { get; set; }
         [Key]
-        [ForeignKey("Tag")]
+        [ForeignKey("User")]
         [Column(Order = 2)]
-        public int TagID { get; set; }
+        public string UserID { get; set; }
+
+        [Required]
+        public Boolean VotedPositive { get; set; }
+
+        [Required]
+        public Boolean VotedNegative { get; set; }
     }
 }
