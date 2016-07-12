@@ -69,16 +69,14 @@
     </dl>
 </div>
 <p>
-    @using (@Html.BeginForm("Upvote", "Questions"))
+    @using (Html.BeginForm("Upvote", "Questions", new { id = Model.ID }))
     {
         @Html.AntiForgeryToken()
-        @Html.Hidden("id", Model.ID)
         <input type="submit" value="+1" />
     }
-    @using (@Html.BeginForm("Downvote", "Questions"))
+    @using (Html.BeginForm("Downvote", "Questions", new { id = Model.ID }))
     {
         @Html.AntiForgeryToken()
-        @Html.Hidden("id", Model.ID)
         <input type="submit" value="-1" />
     }
 </p>
@@ -88,7 +86,7 @@
 </p>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Answers", new { QuestionID = Model.ID }))
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
@@ -102,7 +100,6 @@
                 @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
             </div>
         </div>
-        @Html.Hidden("QuestionID", Model.ID)
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -115,5 +112,18 @@
 
 @foreach (var item in Model.Answers.OrderByDescending(i => i.Date))
 {
+    <p>@Html.DisplayFor(modelItem => item.Votes)</p>
     <p>@Html.DisplayFor(modelItem => item.Content)</p>
+    <p>
+        @using (Html.BeginForm("Upvote", "Answers", new { id = item.ID }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" value="+1" />
+        }
+        @using (Html.BeginForm("Downvote", "Answers", new { id = item.ID }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" value="-1" />
+        }
+    </p>
 }

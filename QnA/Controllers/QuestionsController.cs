@@ -156,7 +156,7 @@ namespace QnA.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upvote(int id)
+        public ActionResult Upvote(int? id)
         {
             Questions questions = db.Questions.Find(id);
             QuestionsVotes votes = db.QuestionsVotes.Find(id, User.Identity.GetUserId());
@@ -167,7 +167,7 @@ namespace QnA.Controllers
                 if (votes == null)
                 {
                     var x = new QuestionsVotes();
-                    x.QuestionID = id;
+                    x.QuestionID = (int)id;
                     x.UserID = User.Identity.GetUserId();
                     x.VotedPositive = true;
                     questions.QuestionsVotes.Add(x);
@@ -202,7 +202,7 @@ namespace QnA.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Downvote(int id)
+        public ActionResult Downvote(int? id)
         {
             Questions questions = db.Questions.Find(id);
             QuestionsVotes votes = db.QuestionsVotes.Find(id, User.Identity.GetUserId());
@@ -214,7 +214,7 @@ namespace QnA.Controllers
                 if (votes == null)
                 {
                     var x = new QuestionsVotes();
-                    x.QuestionID = id;
+                    x.QuestionID = (int)id;
                     x.UserID = User.Identity.GetUserId();
                     x.VotedNegative = true;
                     questions.QuestionsVotes.Add(x);
