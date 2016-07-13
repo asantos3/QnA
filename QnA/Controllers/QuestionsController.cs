@@ -30,6 +30,8 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Questions questions = db.Questions.Find(id);
+            questions.Views += 1;
+            db.SaveChanges();
             if (questions == null)
             {
                 return HttpNotFound();
