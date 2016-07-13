@@ -16,6 +16,7 @@ namespace QnA.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Answers
+        [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
             var answers = db.Answers.Include(a => a.Question).Include(a => a.User);
@@ -30,18 +31,11 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Answers answers = db.Answers.Find(id);
-            if (answers == null)
+            if (answers == null && answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
             {
                 return HttpNotFound();
             }
             return View(answers);
-        }
-
-        // GET: Answers/Create
-        [Authorize]
-        public ActionResult Create()
-        {
-            return View();
         }
 
         // POST: Answers/Create
@@ -71,7 +65,7 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Answers answers = db.Answers.Find(id);
-            if (answers == null)
+            if (answers == null && answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
             {
                 return HttpNotFound();
             }
@@ -84,7 +78,7 @@ namespace QnA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Content")] Answers answers)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && answers.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
             {
                 var x = db.Answers.Where(u => u.ID == answers.ID).First();
                 answers.QuestionID = x.QuestionID;
@@ -108,7 +102,7 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Answers answers = db.Answers.Find(id);
-            if (answers == null)
+            if (answers == null && answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
             {
                 return HttpNotFound();
             }
@@ -122,6 +116,10 @@ namespace QnA.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Answers answers = db.Answers.Find(id);
+            if (answers == null && answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            {
+                return HttpNotFound();
+            }
             db.Answers.Remove(answers);
             db.SaveChanges();
             return RedirectToAction("Index");

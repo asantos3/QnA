@@ -55,8 +55,8 @@ namespace QnA.Controllers
             return View(answers);
         }
 
-        [Authorize]
         // GET: Questions/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -96,7 +96,7 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Questions questions = db.Questions.Find(id);
-            if (questions == null)
+            if (questions == null && questions.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
             {
                 return HttpNotFound();
             }
@@ -109,7 +109,7 @@ namespace QnA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Title,Content")] Questions questions)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && questions.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
             {
                 var x = db.Questions.Where(u => u.ID == questions.ID).First();
                 questions.Date = x.Date;
@@ -133,7 +133,7 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Questions questions = db.Questions.Find(id);
-            if (questions == null)
+            if (questions == null && questions.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
             {
                 return HttpNotFound();
             }
@@ -147,6 +147,10 @@ namespace QnA.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Questions questions = db.Questions.Find(id);
+            if (questions == null && questions.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            {
+                return HttpNotFound();
+            }
             db.Questions.Remove(questions);
             db.SaveChanges();
             return RedirectToAction("Index");
