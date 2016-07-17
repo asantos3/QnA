@@ -25,6 +25,7 @@ namespace QnA.Models
 
         [Required]
         [StringLength(5000)]
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
         [Required]

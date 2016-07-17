@@ -16,9 +16,53 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+#questions .entry, #answers .entry {
+    margin: 20px 0 20px 0;
+}
+
+.entry .thing {
+    margin: 0 10px 0 0;
+}
+
+.entry .votes {
+    padding: 0 10px 0 0;
+    text-align: center;
+}
+
+.entry .votes .votes-number {
+    margin: 0;
+}
+
+.entry .thing .title {
+    margin: 0 0 12px 0;
+}
+
+.entry .thing .info {
+    margin: 0;
+}
+.entry .thing .info:after {
+    content: '.';
+    visibility: hidden;
+}
+
+.entry .thing .content {
+    padding: 10px 0 10px 0;
+}
+
+
+.navigation .pagination {
+    margin: 5px 0;
+}
+
+
+#answerForm .form-group > * {
+    margin: 10px 0 10px 0;
+}
+
+#answerForm .form-group > :first-child {
+    margin: 0 0 10px 0;
+}
+
+#answerForm .form-group > :last-child {
+    margin: 10px 0 0 0;
 }

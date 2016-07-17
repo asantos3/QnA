@@ -1,3 +1,91 @@
-﻿﻿@{
-    ViewBag.Title = "QnA";
+﻿@using Microsoft.AspNet.Identity;
+@model PagedList.IPagedList<QnA.Models.Questions>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "QnA - Questions and Answers";
 }
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div>
+    <a href="@Url.Action("Index", new { sort = "newer" })" class="btn @(ViewBag.CurrentSort == "newer" ? "btn-primary" : "btn-default")">Newer</a>
+    <a href="@Url.Action("Index", new { sort = "older" })" class="btn @(ViewBag.CurrentSort == "older" ? "btn-primary" : "btn-default")">Older</a>
+    <a href="@Url.Action("Index", new { sort = "moreVotes" })" class="btn @(ViewBag.CurrentSort == "moreVotes" ? "btn-primary" : "btn-default")">More Votes</a>
+    <a href="@Url.Action("Index", new { sort = "lessVotes" })" class="btn @(ViewBag.CurrentSort == "lessVotes" ? "btn-primary" : "btn-default")">Less Votes</a>
+    <a href="@Url.Action("Index", new { sort = "moreViews" })" class="btn @(ViewBag.CurrentSort == "moreViews" ? "btn-primary" : "btn-default")">More Views</a>
+    <a href="@Url.Action("Index", new { sort = "lessViews" })" class="btn @(ViewBag.CurrentSort == "lessViews" ? "btn-primary" : "btn-default")">Less Views</a>
+</div>
+<div id="questions">
+    @foreach (var item in Model)
+    {
+        <div class="entry">
+            @if (User.Identity.IsAuthenticated)
+            {
+                string btnPositive = "btn-default";
+                string btnNegative = "btn-default";
+                if (item.QuestionsVotes.Count > 0)
+                {
+                    var currentUserQuestion = item.QuestionsVotes.Where(q => q.UserID == User.Identity.GetUserId() && q.QuestionID == item.ID).First();
+                    btnPositive = currentUserQuestion.VotedPositive == true ? "btn-primary" : "btn-default";
+                    btnNegative = currentUserQuestion.VotedNegative == true ? "btn-primary" : "btn-default";
+                }
+                <div class="pull-left votes">
+                    <div class="btn-group-vertical" role="group" aria-label="...">
+                        @using (Html.BeginForm("Upvote", "Questions", new { id = item.ID }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type = "submit" class="btn btn-xs @btnPositive">
+                                &#x25B2;
+                            </button>
+                        }
+
+                        <p class="votes-number">@Html.DisplayFor(modelItem => item.Votes)</p>
+
+                        @using (Html.BeginForm("Downvote", "Questions", new { id = item.ID }))
+                    {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-xs @btnNegative">
+                                &#x25BC;
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+            <div class="thing">
+                <h3 class="title">
+                    <a href="@Url.Action("Question", new { id = item.ID })">@Html.DisplayFor(modelItem => item.Title)</a>
+                </h3>
+                <h6 class="info">
+                    Date: @Html.DisplayFor(modelItem => item.Date) |
+                    User: @Html.DisplayFor(modelItem => item.User.UserName) |
+                    Votes: @Html.DisplayFor(modelItem => item.Votes) |
+                    Views: @Html.DisplayFor(modelItem => item.Views) |
+                    Answers: @Html.DisplayFor(modelItem => item.Answers.Count)
+                </h6>
+                <h6 class="info">
+                    @Html.ActionLink("View More", "Question", new { id = item.ID })
+                    @if (item.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+                    {
+                        @: |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                        @: |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    }
+                </h6>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    }
+</div>
+
+<div class="navigation">
+    <p>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </p>
+</div>
+

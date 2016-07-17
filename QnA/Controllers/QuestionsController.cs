@@ -16,6 +16,7 @@ namespace QnA.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Questions
+        [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
             var questions = db.Questions.Include(q => q.User);
@@ -30,31 +31,13 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Questions questions = db.Questions.Find(id);
-            questions.Views += 1;
-            db.SaveChanges();
             if (questions == null)
             {
                 return HttpNotFound();
             }
+            questions.Views += 1;
+            db.SaveChanges();
             return View(questions);
-        }
-
-        // POST: Questions/Details/5
-        [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Details([Bind(Include = "QuestionID,Date,UserID,Content,Votes")] Answers answers)
-        {
-            if (ModelState.IsValid)
-            {
-                answers.Date = DateTime.Now;
-                answers.Votes = 0;
-                answers.UserID = User.Identity.GetUserId();
-                db.Answers.Add(answers);
-                db.SaveChanges();
-                return RedirectToAction("Details");
-            }
-            return View(answers);
         }
 
         // GET: Questions/Create
@@ -169,7 +152,8 @@ namespace QnA.Controllers
             if (questions == null)
             {
                 return HttpNotFound();
-            } else {
+            }
+            else {
                 if (votes == null)
                 {
                     var x = new QuestionsVotes();
@@ -178,7 +162,8 @@ namespace QnA.Controllers
                     x.VotedPositive = true;
                     questions.QuestionsVotes.Add(x);
                     questions.Votes = questions.Votes + 1;
-                } else {
+                }
+                else {
                     // upvote a question
                     if (votes.VotedPositive == false && votes.VotedNegative == false)
                     {
@@ -186,7 +171,7 @@ namespace QnA.Controllers
                         questions.Votes = questions.Votes + 1;
                     }
                     // upvote a question voted down
-                    else if(votes.VotedPositive == false && votes.VotedNegative == true)
+                    else if (votes.VotedPositive == false && votes.VotedNegative == true)
                     {
                         votes.VotedPositive = true;
                         votes.VotedNegative = false;
@@ -200,7 +185,7 @@ namespace QnA.Controllers
                     }
                 }
                 db.SaveChanges();
-                return RedirectToAction("Details/" + id);
+                return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
             }
         }
 
@@ -248,7 +233,7 @@ namespace QnA.Controllers
                     }
                 }
                 db.SaveChanges();
-                return RedirectToAction("Details/"+id);
+                return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
             }
         }
 
