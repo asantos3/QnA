@@ -120,7 +120,7 @@
                 }
                 <div class="pull-left votes">
                     <div class="btn-group-vertical" role="group" aria-label="...">
-                        @using (Html.BeginForm("Upvote", "Answers", new { id = item.ID }))
+                        @using (Html.BeginForm("Upvote", "Answer", new { id = item.ID }))
                         {
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-xs @btnPositive">
@@ -130,7 +130,7 @@
 
                         <p class="votes-number">@Html.DisplayFor(modelItem => item.Votes)</p>
 
-                        @using (Html.BeginForm("Downvote", "Answers", new { id = item.ID }))
+                        @using (Html.BeginForm("Downvote", "Answer", new { id = item.ID }))
                         {
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-xs @btnNegative">
