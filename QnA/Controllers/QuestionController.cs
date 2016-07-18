@@ -106,7 +106,7 @@ namespace QnA.Controllers
         {
             if (ModelState.IsValid && questions.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
             {
-                var x = db.Questions.Where(u => u.ID == questions.ID).First();
+                var x = db.Questions.Find(questions.ID);
                 questions.Date = x.Date;
                 questions.Votes = x.Votes;
                 questions.Views = x.Views;

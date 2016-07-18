@@ -3,6 +3,7 @@ using QnA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,6 +12,76 @@ namespace QnA.Controllers
     public class AnswerController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: Answers/Edit/5
+        [Authorize]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Answers answers = db.Answers.Find(id);
+            if (answers == null && answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            {
+                return HttpNotFound();
+            }
+            return View(answers);
+        }
+
+        // POST: Answers/Edit/5
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "ID,Content")] Answers answers)
+        {
+            if (ModelState.IsValid && answers.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+            {
+                var x = db.Answers.Find(answers.ID);
+                answers.QuestionID = x.QuestionID;
+                answers.Date = x.Date;
+                answers.Votes = x.Votes;
+                answers.UserID = x.UserID;
+
+                db.Entry(x).CurrentValues.SetValues(answers);
+                db.SaveChanges();
+                return RedirectToAction("Question", "Question", new { id = answers.QuestionID });
+
+            }
+            return View(answers);
+        }
+
+        // GET: Answers/Delete/5
+        [Authorize]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Answers answers = db.Answers.Find(id);
+            if (answers == null && answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            {
+                return HttpNotFound();
+            }
+            return View(answers);
+        }
+
+        // POST: Answers/Delete/5
+        [Authorize]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Answers answers = db.Answers.Find(id);
+            if (answers == null && answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            {
+                return HttpNotFound();
+            }
+            db.Answers.Remove(answers);
+            db.SaveChanges();
+            return RedirectToAction("Question", "Question", new { id = answers.QuestionID });
+        }
 
         // Upvote an answer
         [Authorize]
