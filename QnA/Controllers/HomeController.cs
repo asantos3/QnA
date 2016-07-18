@@ -19,43 +19,6 @@ namespace QnA.Controllers
             return QuestionList(sort, page, null, null);
         }
 
-        // GET: Index/Question/5
-        public ActionResult Question(int id)
-        {
-            QuestionsAnswersViewModel qa = new QuestionsAnswersViewModel();
-            qa.Questions = db.Questions.Find(id);
-
-            if (qa.Questions == null)
-            {
-                return HttpNotFound();
-            }
-
-            qa.Questions.Views += 1;
-            db.SaveChanges();
-
-            return View(qa);
-        }
-
-        // POST: Answers/Create
-        [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Question(QuestionsAnswersViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                model.Answers.Date = DateTime.Now;
-                model.Answers.Votes = 0;
-                model.Answers.UserID = User.Identity.GetUserId();
-                db.Answers.Add(model.Answers);
-                db.SaveChanges();
-                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
-            }
-
-            model.Questions = db.Questions.Find(model.Answers.QuestionID);
-            return View(model);
-        }
-
         // GET: Questions
         public ActionResult QuestionList(string sort, int? page, string searchType, string searchParam)
         {

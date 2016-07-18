@@ -10,7 +10,7 @@
 <h2>Question</h2>
 
 <p>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", "Home")
 </p>
 
 <div class="entry">
@@ -26,7 +26,7 @@
         }
         <div class="pull-left votes">
             <div class="btn-group-vertical" role="group" aria-label="...">
-                @using (Html.BeginForm("Upvote", "Questions", new { id = Model.Questions.ID }))
+                @using (Html.BeginForm("Upvote", "Question", new { id = Model.Questions.ID }))
                 {
                     @Html.AntiForgeryToken()
                     <button type="submit" class="btn btn-xs @btnPositive">
@@ -36,7 +36,7 @@
 
                 <p class="votes-number">@Html.DisplayFor(model => model.Questions.Votes)</p>
 
-                @using (Html.BeginForm("Downvote", "Questions", new { id = Model.Questions.ID }))
+                @using (Html.BeginForm("Downvote", "Question", new { id = Model.Questions.ID }))
                 {
                     @Html.AntiForgeryToken()
                     <button type="submit" class="btn btn-xs @btnNegative">
@@ -81,7 +81,7 @@
 @if (User.Identity.IsAuthenticated)
 {
     <div id="answerForm">
-        @using (Html.BeginForm("Question", "Home"))
+        @using (Html.BeginForm("Question"))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })

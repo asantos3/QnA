@@ -9,7 +9,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", "Question")
 </p>
 <div>
     <a href="@Url.Action("Index", new { sort = "newer" })" class="btn @(ViewBag.CurrentSort == "newer" ? "btn-primary" : "btn-default")">Newer</a>
@@ -35,7 +35,7 @@
                 }
                 <div class="pull-left votes">
                     <div class="btn-group-vertical" role="group" aria-label="...">
-                        @using (Html.BeginForm("Upvote", "Questions", new { id = item.ID }))
+                        @using (Html.BeginForm("Upvote", "Question", new { id = item.ID }))
                         {
                             @Html.AntiForgeryToken()
                             <button type = "submit" class="btn btn-xs @btnPositive">
@@ -45,7 +45,7 @@
 
                         <p class="votes-number">@Html.DisplayFor(modelItem => item.Votes)</p>
 
-                        @using (Html.BeginForm("Downvote", "Questions", new { id = item.ID }))
+                        @using (Html.BeginForm("Downvote", "Question", new { id = item.ID }))
                     {
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-xs @btnNegative">
@@ -57,7 +57,7 @@
             }
             <div class="thing">
                 <h3 class="title">
-                    <a href="@Url.Action("Question", new { id = item.ID })">@Html.DisplayFor(modelItem => item.Title)</a>
+                    <a href="@Url.Action("Question", "Question", new { id = item.ID })">@Html.DisplayFor(modelItem => item.Title)</a>
                 </h3>
                 <h6 class="info">
                     Date: @Html.DisplayFor(modelItem => item.Date) |
@@ -67,13 +67,13 @@
                     Answers: @Html.DisplayFor(modelItem => item.Answers.Count)
                 </h6>
                 <h6 class="info">
-                    @Html.ActionLink("View More", "Question", new { id = item.ID })
+                    @Html.ActionLink("View More", "Question", "Question", new { id = item.ID }, null)
                     @if (item.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
                     {
                         @: |
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                        @Html.ActionLink("Edit", "Edit", "Question", new { id = item.ID }, null)
                         @: |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        @Html.ActionLink("Delete", "Delete", "Question", new { id = item.ID }, null)
                     }
                 </h6>
             </div>
