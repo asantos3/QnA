@@ -6,11 +6,14 @@
     ViewBag.Title = "QnA - Questions and Answers";
 }
 
-<h2>Index</h2>
+@if (User.Identity.IsAuthenticated)
+{
+    <div id="navigation-top">
+        <a href="@Url.Action("Create", "Question")" class="btn btn-default">Create a question</a>
+    </div>
+    <hr />
+}
 
-<p>
-    @Html.ActionLink("Create New", "Create", "Question")
-</p>
 <div>
     <a href="@Url.Action("Index", new { sort = "newer" })" class="btn @(ViewBag.CurrentSort == "newer" ? "btn-primary" : "btn-default")">Newer</a>
     <a href="@Url.Action("Index", new { sort = "older" })" class="btn @(ViewBag.CurrentSort == "older" ? "btn-primary" : "btn-default")">Older</a>
@@ -82,7 +85,7 @@
     }
 </div>
 
-<div class="navigation">
+<div id="navigation-bottom">
     <p>
         Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
         @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

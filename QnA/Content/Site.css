@@ -50,7 +50,11 @@
 }
 
 
-.navigation .pagination {
+#navigation-top {
+    margin-top: 20px;
+}
+
+#navigation-bottom .pagination {
     margin: 5px 0;
 }
 

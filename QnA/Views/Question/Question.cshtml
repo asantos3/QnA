@@ -2,16 +2,18 @@
 @model QnA.Models.QuestionsAnswersViewModel
 
 @{
-    ViewBag.Title = "Question";
+    ViewBag.Title = "Question - " + Model.Questions.Title;
     Model.Answers = new QnA.Models.Answers();
     Model.Answers.QuestionID = Model.Questions.ID;
 }
 
-<h2>Question</h2>
-
-<p>
-    @Html.ActionLink("Back to List", "Index", "Home")
-</p>
+<div id="navigation-top">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+        <li class="active">Question #@Html.Raw(Model.Questions.ID)</li>
+    </ol>
+</div>
+<hr />
 
 <div class="entry">
     @if (User.Identity.IsAuthenticated)
@@ -94,14 +96,12 @@
             </div>
         }
     </div>
-
-    <hr />
 }
 @if (Model.Questions.Answers.Count > 0)
-{    
+{
+    <hr />
 
     <h4>Answers</h4>
-    <hr />
 
     <div id="answers">
         
@@ -149,9 +149,9 @@
                     <h6 class="info">
                         @if (item.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
                         {
-                            @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                            @Html.ActionLink("Edit", "Edit", "Answer", new { id = item.ID }, null)
                             @: |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                            @Html.ActionLink("Delete", "Delete", "Answer", new { id = item.ID }, null)
                         }
                     </h6>
                     <div class="content">
