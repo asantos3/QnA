@@ -24,6 +24,7 @@ namespace QnA.Controllers
         }
 
         // GET: Questions/Details/5
+        [Authorize(Roles = "Administrator")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -40,39 +41,8 @@ namespace QnA.Controllers
             return View(questions);
         }
 
-        // GET: Questions/Create
-        [Authorize]
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Questions/Create
-        [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Content,Date,Votes,Views,UserID")] Questions questions)
-        {
-            if (ModelState.IsValid)
-            {
-                var x = new QuestionsTags();
-                x.Tag = new Tags();
-                x.Tag.Name = "Teste"; // test value
-                x.Question = questions;
-                questions.Tags.Add(x);
-
-                questions.Date = DateTime.Now;
-                questions.Votes = 0;
-                questions.Views = 0;
-                questions.UserID = User.Identity.GetUserId();
-                db.Questions.Add(questions);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(questions);
-        }
-
         // GET: Questions/Edit/5
+        [Authorize(Roles = "Administrator")]
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -89,7 +59,7 @@ namespace QnA.Controllers
         }
 
         // POST: Questions/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Title,Content")] Questions questions)
@@ -104,13 +74,13 @@ namespace QnA.Controllers
 
                 db.Entry(x).CurrentValues.SetValues(questions);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = questions.ID });
             }
             return View(questions);
         }
 
         // GET: Questions/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -126,7 +96,7 @@ namespace QnA.Controllers
         }
 
         // POST: Questions/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

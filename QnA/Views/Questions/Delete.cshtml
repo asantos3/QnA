@@ -10,13 +10,20 @@
 <div>
     <h4>Questions</h4>
     <hr />
-    <dl class="dl-horizontal">
+
+    <p>
+        @Html.ActionLink("Back to List", "Index") |
+        @Html.ActionLink("Back to Question", "Details", new { id = Model.ID }) |
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+    </p>
+
+    <dl>
         <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
+            @Html.DisplayNameFor(model => model.ID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.Email)
+            @Html.DisplayFor(model => model.ID)
         </dd>
 
         <dt>
@@ -44,6 +51,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.User.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.UserName)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Votes)
         </dt>
 
@@ -59,14 +74,21 @@
             @Html.DisplayFor(model => model.Views)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Answers)
+        </dt>
+
+        <dd>
+            @Model.Answers.Count()
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Delete" class="btn btn-danger" />
         </div>
     }
 </div>

@@ -24,6 +24,7 @@ namespace QnA.Controllers
         }
 
         // GET: Answers/Details/5
+        [Authorize(Roles = "Administrator")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -38,26 +39,8 @@ namespace QnA.Controllers
             return View(answers);
         }
 
-        // POST: Answers/Create
-        [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "QuestionID,Date,UserID,Content,Votes")] Answers answers)
-        {
-            if (ModelState.IsValid)
-            {
-                answers.Date = DateTime.Now;
-                answers.Votes = 0;
-                answers.UserID = User.Identity.GetUserId();
-                db.Answers.Add(answers);
-                db.SaveChanges();
-                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
-            }
-            return View(answers);
-        }
-
         // GET: Answers/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,7 +56,7 @@ namespace QnA.Controllers
         }
 
         // POST: Answers/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Content")] Answers answers)
@@ -88,13 +71,13 @@ namespace QnA.Controllers
 
                 db.Entry(x).CurrentValues.SetValues(answers);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = answers.ID });
             }
             return View(answers);
         }
 
         // GET: Answers/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -110,7 +93,7 @@ namespace QnA.Controllers
         }
 
         // POST: Answers/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

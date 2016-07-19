@@ -12,10 +12,10 @@
             @Html.DisplayNameFor(model => model.Content)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Votes)
+            @Html.DisplayNameFor(model => model.User.UserName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.UserName)
+            @Html.DisplayNameFor(model => model.Votes)
         </th>
         <th></th>
 </tr>
@@ -26,10 +26,10 @@
             @Html.DisplayFor(modelItem => item.Content)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Votes)
+            @Html.DisplayFor(modelItem => item.User.UserName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.User.UserName)
+            @Html.DisplayFor(modelItem => item.Votes)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.ID}) |

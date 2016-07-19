@@ -9,21 +9,31 @@
 <div>
     <h4>Answers</h4>
     <hr />
-    <dl class="dl-horizontal">
+
+    <p>
+        @Html.ActionLink("Back to List", "Index") |
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.ID })
+    </p>
+
+    <dl>
+
+        <dt>
+            Question:
+        </dt>
+
+        <dd>
+            <a href="@Url.Action("Details", "Questions", new { id = Model.QuestionID })">
+                ID @Html.DisplayFor(model => model.Question.ID) | Title @Html.DisplayFor(model => model.Question.Title)
+            </a>
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.ID)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.ID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.QuestionID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.QuestionID)
         </dd>
 
         <dt>
@@ -43,14 +53,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Votes)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Votes)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.User.UserName)
         </dt>
 
@@ -58,9 +60,13 @@
             @Html.DisplayFor(model => model.User.UserName)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Votes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Votes)
+        </dd>
+
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

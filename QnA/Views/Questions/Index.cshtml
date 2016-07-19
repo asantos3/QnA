@@ -21,13 +21,16 @@
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.User.UserName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Votes)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Views)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.UserName)
+            @Html.DisplayNameFor(model => model.Answers)
         </th>
         <th></th>
     </tr>
@@ -47,13 +50,16 @@
             @Html.DisplayFor(modelItem => item.Date)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.User.UserName)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Votes)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Views)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.User.UserName)
+            @item.Answers.Count()
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |

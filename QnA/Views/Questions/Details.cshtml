@@ -9,7 +9,14 @@
 <div>
     <h4>Questions</h4>
     <hr />
-    <dl class="dl-horizontal">
+
+    <p>
+        @Html.ActionLink("Back to List", "Index") |
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.ID })
+    </p>
+
+    <dl>
         <dt>
             @Html.DisplayNameFor(model => model.ID)
         </dt>
@@ -43,6 +50,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.User.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.UserName)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Votes)
         </dt>
 
@@ -59,70 +74,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.User.UserName)
+            @Html.DisplayNameFor(model => model.Answers)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.UserName)
+            @Model.Answers.Count()
         </dd>
     </dl>
 </div>
-<p>
-    @using (Html.BeginForm("Upvote", "Questions", new { id = Model.ID }))
-    {
-        @Html.AntiForgeryToken()
-        <input type="submit" value="+1" />
-    }
-    @using (Html.BeginForm("Downvote", "Questions", new { id = Model.ID }))
-    {
-        @Html.AntiForgeryToken()
-        <input type="submit" value="-1" />
-    }
-</p>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
 
-
-@using (Html.BeginForm("Create", "Answers", new { QuestionID = Model.ID }))
-{
-    @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <h4>Answers</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
+<hr />
 
 @foreach (var item in Model.Answers.OrderByDescending(i => i.Date))
 {
-    <p>@Html.DisplayFor(modelItem => item.Votes)</p>
-    <p>@Html.DisplayFor(modelItem => item.Content)</p>
     <p>
-        @using (Html.BeginForm("Upvote", "Answers", new { id = item.ID }))
-        {
-            @Html.AntiForgeryToken()
-            <input type="submit" value="+1" />
-        }
-        @using (Html.BeginForm("Downvote", "Answers", new { id = item.ID }))
-        {
-            @Html.AntiForgeryToken()
-            <input type="submit" value="-1" />
-        }
+        @Html.ActionLink("Edit", "Edit", "Answers", new { id = item.ID }, null) |
+        @Html.ActionLink("Delete", "Delete", "Answers", new { id = item.ID }, null)
     </p>
+    <p>
+        Date: @Html.DisplayFor(modelItem => item.Date) |
+        User: @Html.DisplayFor(modelItem => item.User.UserName) |
+        Votes: @Html.DisplayFor(modelItem => item.Votes)
+    </p>    
+    <p>@Html.DisplayFor(modelItem => item.Content)</p>
 }
