@@ -8,25 +8,86 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <header>
+        <nav class="navbar navbar-fixed-top">
+            <div class="container">
+                @* Brand and toggle get grouped for better mobile display *@
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("QnA", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+
+                @* Collect the nav links, forms, and other content for toggling *@
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        @* Check if the current view is Home/Index *@
+                        @if (ViewBag.CurrentSearch == "all")
+                        {
+                            <li class="active"><a href="@Url.Action("Index", "Home")">All Questions <span class="sr-only">(current)</span></a></li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("All Questions", "Index", "Home")</li>
+                        }
+
+                        @if (ViewBag.CurrentSearch == "user")
+                        {
+                            <li class="active"><a href="@Url.Action("Index", "Home", new { q = "user", param = User.Identity.Name })">Your Questions <span class="sr-only">(current)</span></a></li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Your Questions", "Index", "Home", new { q = "user", param = User.Identity.Name }, null)</li>
+                        }
+
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrator <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Index of Questions", "Index", "Questions")</li>
+                                    <li>@Html.ActionLink("Index of Answers", "Index", "Answers")</li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form class="navbar-form navbar-left">
+                            <a href="@Url.Action("Create", "Question")" class="btn btn-default accent">Ask a Question!</a>
+                        </form>
+                    }
+
+                    @* Login/Register & Dropdown Profile/Manage *@
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </nav>
+
+        @* Search Form *@
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("QnA", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+            @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @id = "search", @role = "search" }))
+            {
+                @Html.AntiForgeryToken()
+                <span class="field-validation-valid text-danger" data-val="true" data-valmsg-for="param" data-val-required="The UserName field is required.">@TempData["SearchError"]</span>
+                <p>@Html.ValidationMessage("param", "", new { @class = "text-danger" })</p>
+                <div class="input-group">
+                    <input type="text" id="param" name="param" class="form-control" placeholder="Search for questions.">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </span>
+                </div>
+            }
         </div>
-    </div>
+    </header>
+
     <div class="container body-content">
+        <hr />
         @RenderBody()
         <hr />
         <footer>
@@ -36,6 +97,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
 </body>
 </html>

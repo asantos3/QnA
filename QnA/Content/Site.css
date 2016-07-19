@@ -1,72 +1,153 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿/* Start of Bootstrap Override */
+a {
+  color: #4f86b5;
 }
-
-/* Set padding to keep content from hitting the edges */
+a:hover {
+  color: #4980ae;
+}
+.btn-primary {
+  color: #FFFFFF;
+  background-color: #4f86b5;
+  border-color: #4270a2;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  background-color: #4980ae;
+  border-color: #4270a2;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default {
+  color: #FFFFFF;
+  background-color: #4f86b5;
+  border-color: #4270a2;
+}
+.accent.btn-default,
+.accent.btn-default:hover,
+.accent.btn-default:focus,
+.accent.btn-default:active,
+.accent.btn-default.active,
+.accent.open .dropdown-toggle.btn-default {
+  color: #3B4A4D;
+  background-color: #FFBE65;
+  border-color: #FFAC2F;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  background-color: #4f86b5;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  background-color: #4f86b5;
+  border-color: #4270a2;
+}
+.breadcrumb {
+  background-color: #ededed;
+}
+hr {
+  border-color: #e8e8e8;
+  border-bottom: 1px solid #FFFFFF;
+}
+/* End of Bootstrap Override */
+body {
+  background-color: #f5f5f5;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
-
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+header .navbar {
+  background-color: #3B4A4D;
+  border: none;
+  border-top: 2px solid #FFBE65;
 }
-
-#questions .entry, #answers .entry {
-    margin: 20px 0 20px 0;
+header .navbar-brand {
+  color: #FFBE65;
 }
-
+header .navbar-nav > .active > a,
+header .navbar-nav > .active > a:hover,
+header .navbar-nav > .active > a:focus header .navbar-nav > .active > a {
+  color: #3B4A4D;
+  background-color: #f5f5f5;
+}
+header .navbar-nav > li > a {
+  color: #f5f5f5;
+}
+header .navbar-nav > li > a:hover {
+  color: #3B4A4D;
+  background-color: #f5f5f5;
+}
+header .nav .caret {
+  border-top-color: #f5f5f5;
+  border-bottom-color: #f5f5f5;
+}
+header .nav a:hover .caret,
+header .nav .open > a .caret,
+header .nav .open > a:hover .caret,
+header .nav .open > a:focus .caret {
+  border-top-color: #3B4A4D;
+  border-bottom-color: #3B4A4D;
+}
+header .nav .open > a,
+header .nav .open > a:hover,
+header .nav .open > a:focus {
+  color: #3B4A4D;
+  background-color: #f5f5f5;
+  border-color: #3B4A4D;
+}
+header #search {
+  margin: 20px 0 0 0;
+}
+#header .search input {
+  background-color: #f4f4f4;
+}
+#questions .entry,
+#answers .entry {
+  margin: 20px 0 20px 0;
+}
 .entry .thing {
-    margin: 0 10px 0 0;
+  margin: 0 10px 0 0;
 }
-
 .entry .votes {
-    padding: 0 10px 0 0;
-    text-align: center;
+  padding: 0 10px 0 0;
+  text-align: center;
 }
-
 .entry .votes .votes-number {
-    margin: 0;
+  margin: 0;
 }
-
 .entry .thing .title {
-    margin: 0 0 12px 0;
+  margin: 0 0 12px 0;
 }
-
 .entry .thing .info {
-    margin: 0;
+  margin: 0;
 }
 .entry .thing .info:after {
-    content: '.';
-    visibility: hidden;
+  content: '.';
+  visibility: hidden;
 }
-
 .entry .thing .content {
-    padding: 10px 0 10px 0;
+  padding: 10px 0 10px 0;
 }
-
-
-#navigation-top {
-    margin-top: 20px;
-}
-
 #navigation-bottom .pagination {
-    margin: 5px 0;
+  margin: 5px 0;
 }
-
-
 #answerForm .form-group > * {
-    margin: 10px 0 10px 0;
+  margin: 10px 0 10px 0;
 }
-
 #answerForm .form-group > :first-child {
-    margin: 0 0 10px 0;
+  margin: 0 0 10px 0;
 }
-
 #answerForm .form-group > :last-child {
-    margin: 10px 0 0 0;
+  margin: 10px 0 0 0;
 }

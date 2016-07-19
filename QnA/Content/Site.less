@@ -1,0 +1,192 @@
+﻿@white: #FFFFFF;
+@dark-gray: #3B4A4D;
+@light-gray: #f5f5f5;
+@base: #4f86b5;
+@base-border: #4270a2;
+@base-hover: #4980ae;
+@accent: #FFBE65;
+@accent-border: #FFAC2F;
+
+
+/* Start of Bootstrap Override */
+
+a {
+    color: @base;
+}
+
+a:hover {
+    color: @base-hover;
+}
+
+.btn-primary {
+    color: @white;
+    background-color: @base;
+    border-color: @base-border;
+}
+
+.btn-primary:hover, .btn-primary:focus,
+.btn-primary:active, .btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+    background-color: @base-hover;
+    border-color: @base-border;
+}
+
+.btn-default:hover, .btn-default:focus,
+.btn-default:active, .btn-default.active,
+.open .dropdown-toggle.btn-default {
+    color: @white;
+    background-color: @base;
+    border-color: @base-border;
+}
+
+.accent.btn-default,
+.accent.btn-default:hover,
+.accent.btn-default:focus,
+.accent.btn-default:active,
+.accent.btn-default.active,
+.accent.open .dropdown-toggle.btn-default {
+    color: @dark-gray;
+    background-color: @accent;
+    border-color: @accent-border;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: @base;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover, .pagination > .active > span:hover,
+.pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: @base;
+    border-color: @base-border;
+}
+
+.breadcrumb {
+    background-color: darken(@light-gray, 3%);
+}
+
+hr {
+    border-color: darken(@light-gray, 5%);
+    border-bottom: 1px solid @white;
+}
+
+/* End of Bootstrap Override */
+
+
+body {
+    background-color: @light-gray;
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+header .navbar {
+    background-color: @dark-gray;
+    border: none;
+    border-top: 2px solid @accent;
+}
+
+header .navbar-brand {
+    color: @accent;
+}
+
+header .navbar-nav > .active > a,
+header .navbar-nav > .active > a:hover,
+header .navbar-nav > .active > a:focus
+header .navbar-nav > .active > a {
+    color: @dark-gray;
+    background-color: @light-gray
+}
+
+header .navbar-nav > li > a {
+    color: @light-gray;
+}
+
+header .navbar-nav > li > a:hover {
+    color: @dark-gray;
+    background-color: @light-gray;
+}
+
+header .nav .caret {
+    border-top-color: @light-gray;
+    border-bottom-color: @light-gray;
+}
+
+header .nav a:hover .caret,
+header .nav .open > a .caret,
+header .nav .open > a:hover .caret,
+header .nav .open > a:focus .caret {
+    border-top-color: @dark-gray;
+    border-bottom-color: @dark-gray;
+}
+
+header .nav .open > a,
+header .nav .open > a:hover,
+header .nav .open > a:focus {
+    color: @dark-gray;
+    background-color: @light-gray;
+    border-color: @dark-gray;
+}
+
+header #search {
+    margin: 20px 0 0 0;
+}
+#header .search input {
+    background-color: #f4f4f4;
+}
+
+
+#questions .entry, #answers .entry {
+    margin: 20px 0 20px 0;
+}
+
+.entry .thing {
+    margin: 0 10px 0 0;
+}
+
+.entry .votes {
+    padding: 0 10px 0 0;
+    text-align: center;
+}
+
+.entry .votes .votes-number {
+    margin: 0;
+}
+
+.entry .thing .title {
+    margin: 0 0 12px 0;
+}
+
+.entry .thing .info {
+    margin: 0;
+}
+.entry .thing .info:after {
+    content: '.';
+    visibility: hidden;
+}
+
+.entry .thing .content {
+    padding: 10px 0 10px 0;
+}
+
+#navigation-bottom .pagination {
+    margin: 5px 0;
+}
+
+
+#answerForm .form-group > * {
+    margin: 10px 0 10px 0;
+}
+
+#answerForm .form-group > :first-child {
+    margin: 0 0 10px 0;
+}
+
+#answerForm .form-group > :last-child {
+    margin: 10px 0 0 0;
+}

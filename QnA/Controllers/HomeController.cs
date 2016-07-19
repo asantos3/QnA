@@ -14,13 +14,30 @@ namespace QnA.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Index
-        public ActionResult Index(string sort, int? page)
+        public ActionResult Index(string sort, int? page, string q, string param)
         {
-            return QuestionList(sort, page, null, null);
+            ViewBag.q = q;
+            ViewBag.param = param;
+            return QuestionFilter(sort, page, q, param);
         }
 
-        // GET: Questions
-        public ActionResult QuestionList(string sort, int? page, string searchType, string searchParam)
+        // Search Form
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Search(string param)
+        {
+            if (!String.IsNullOrWhiteSpace(param))
+            {
+                string q = "search";
+                return RedirectToAction("Index", new { sort = "newer", page = 1, q = q, param = param });
+            } else
+            {
+                TempData["SearchError"] = "The search cannot be empty.";
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult QuestionFilter(string sort, int? page, string q, string param)
         {
             if (sort == null && Session["CurrentSort"] == null) {
                 sort = "newer";
@@ -29,8 +46,11 @@ namespace QnA.Controllers
             }
             Session["CurrentSort"] = sort;
             ViewBag.CurrentSort = sort;
-            searchType = (searchType ?? "");
-            var questions = db.Questions.Include(q => q.User);
+
+            ViewBag.CurrentSearch = (q ?? "all");
+            q = (q ?? "");
+
+            var questions = db.Questions.Include(x => x.User);
 
             switch (sort)
             {
@@ -57,13 +77,13 @@ namespace QnA.Controllers
                     break;
             }
 
-            switch (searchType)
+            switch (q)
             {
                 case "user":
-                    questions = questions.Where(q => q.User.Email == searchParam);
+                    questions = questions.Where(x => x.User.UserName == param);
                     break;
                 case "search":
-                    questions = questions.Where(q => q.Title == searchParam && q.Content == searchParam);
+                    questions = questions.Where(x => x.Title.Contains(param) || x.Content.Contains(param));
                     break;
                 default:
                     break;

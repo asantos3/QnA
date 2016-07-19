@@ -74,14 +74,14 @@
     <div class="clearfix"></div>
 </div>
 
-<hr />
-
 @if (Model.Questions.Answers.Count == 0)
 {
+    <hr />
     <h4>There are no answers for this question.</h4>
 }
 @if (User.Identity.IsAuthenticated)
 {
+    <hr />
     <div id="answerForm">
         @using (Html.BeginForm("Question"))
         {
@@ -146,14 +146,15 @@
                         User: @Html.DisplayFor(modelItem => item.User.UserName) |
                         Votes: @Html.DisplayFor(modelItem => item.Votes)
                     </h6>
-                    <h6 class="info">
-                        @if (item.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
-                        {
-                            @Html.ActionLink("Edit", "Edit", "Answer", new { id = item.ID }, null)
-                            @: |
+                    
+                    @if (item.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+                    {
+                        <h6 class="info">
+                            @Html.ActionLink("Edit", "Edit", "Answer", new { id = item.ID }, null) |
                             @Html.ActionLink("Delete", "Delete", "Answer", new { id = item.ID }, null)
-                        }
-                    </h6>
+                        </h6>
+                    }
+                    
                     <div class="content">
                         @Html.DisplayFor(modelItem => item.Content)
                     </div>
