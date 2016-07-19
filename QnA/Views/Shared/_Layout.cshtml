@@ -34,14 +34,16 @@
                         {
                             <li>@Html.ActionLink("All Questions", "Index", "Home")</li>
                         }
-
-                        @if (ViewBag.CurrentSearch == "user")
+                        @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="active"><a href="@Url.Action("Index", "Home", new { q = "user", param = User.Identity.Name })">Your Questions <span class="sr-only">(current)</span></a></li>
-                        }
-                        else
-                        {
-                            <li>@Html.ActionLink("Your Questions", "Index", "Home", new { q = "user", param = User.Identity.Name }, null)</li>
+                            @if (ViewBag.CurrentSearch == "user")
+                            {
+                                <li class="active"><a href="@Url.Action("Index", "Home", new { q = "user", param = User.Identity.Name })">Your Questions <span class="sr-only">(current)</span></a></li>
+                            }
+                            else
+                            {
+                                <li>@Html.ActionLink("Your Questions", "Index", "Home", new { q = "user", param = User.Identity.Name }, null)</li>
+                            }
                         }
 
                         @if (User.IsInRole("Administrator"))
