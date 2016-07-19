@@ -48,6 +48,7 @@ namespace QnA.Controllers
             ViewBag.CurrentSort = sort;
 
             ViewBag.CurrentSearch = (q ?? "all");
+            ViewBag.SearchParam = param;
             q = (q ?? "");
 
             var questions = db.Questions.Include(x => x.User);

@@ -82,6 +82,10 @@
                         <button class="btn btn-primary" type="submit">Search</button>
                     </span>
                 </div>
+                if (ViewBag.CurrentSearch == "search")
+                {
+                    <h4>Search Results for: @ViewBag.SearchParam</h4>
+                }
             }
         </div>
     </header>
