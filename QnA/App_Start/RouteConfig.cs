@@ -12,7 +12,6 @@ namespace QnA
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
             routes.MapRoute(
                 name: "Create",
                 url: "Question/Create",
@@ -23,6 +22,12 @@ namespace QnA
                 name: "Question",
                 url: "Question/{id}",
                 defaults: new { controller = "Question", action = "Question", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Profile",
+                url: "Profile",
+                defaults: new { controller = "Home", action = "Profile", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

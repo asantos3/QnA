@@ -21,6 +21,23 @@ namespace QnA.Controllers
             return QuestionFilter(sort, page, q, param);
         }
 
+        public new ActionResult Profile()
+        {
+            QuestionsAnswersViewModel qa = new QuestionsAnswersViewModel();
+
+            qa.QuestionsList = db.Questions.Include(m => m.User).Where(x => x.User.UserName == User.Identity.Name).OrderByDescending(i => i.Date).ToList();
+            qa.AnswersList = db.Answers.Include(m => m.User).Where(x => x.User.UserName == User.Identity.Name).OrderByDescending(i => i.Date).ToList();
+
+            if (qa.QuestionsList == null || qa.AnswersList == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.SaveChanges();
+
+            return View(qa);
+        }
+
         public ActionResult NotFound()
         {
             return View();

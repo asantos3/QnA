@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNet.Identity;
+@model QnA.Models.QuestionsAnswersViewModel
+
+@{
+    ViewBag.Title = "QnA - Profile of " + User.Identity.Name;
+}
+
+<div id="navigation-top">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+        <li class="active">Profile of @User.Identity.Name</li>
+    </ol>
+</div>
+
+<h3>Profile</h3>
+<hr />
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p><b>Username: </b>@User.Identity.Name</p>
+    <p><b>Number of Questions: </b>@Model.QuestionsList.Count</p>
+    <p><b>Number of Answers: </b>@Model.AnswersList.Count</p>
+}
+
+<hr />
+
+<div class="row">
+    <div id="questions" class="col-md-6">
+        @if (Model.QuestionsList.Count > 0)
+        {
+            <h4>Questions</h4>
+
+            foreach (var item in Model.QuestionsList)
+            {
+                <div class="entry">
+                    <div class="thing">
+                        <h3 class="title">
+                            <a href="@Url.Action("Question", "Question", new { id = item.ID })">@Html.DisplayFor(modelItem => item.Title)</a>
+                        </h3>
+                        <h6 class="info">
+                            Date: @Html.DisplayFor(modelItem => item.Date) |
+                            User: @Html.DisplayFor(modelItem => item.User.UserName) |
+                            Votes: @Html.DisplayFor(modelItem => item.Votes) |
+                            Views: @Html.DisplayFor(modelItem => item.Views) |
+                            Answers: @Html.DisplayFor(modelItem => item.Answers.Count)
+                        </h6>
+                        <h6 class="info">
+                            @Html.ActionLink("View More", "Question", "Question", new { id = item.ID }, null)
+                            @if (item.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+                            {
+                                @: |
+                                @Html.ActionLink("Edit", "Edit", "Question", new { id = item.ID }, null)
+                                @: |
+                                @Html.ActionLink("Delete", "Delete", "Question", new { id = item.ID }, null)
+                            }
+                        </h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+        }
+        else
+        {
+            <h4>You didn't asked a question yet!</h4>
+        }
+    </div>
+    <div id="answers" class="col-md-6">
+        @if (Model.AnswersList.Count > 0)
+        {
+            <h4>Answers</h4>
+
+            foreach (var item in Model.AnswersList)
+            {
+                <div class="entry">
+                    <div class="thing">
+                        <h6 class="info">
+                            Date: @Html.DisplayFor(modelItem => item.Date) |
+                            User: @Html.DisplayFor(modelItem => item.User.UserName) |
+                            Votes: @Html.DisplayFor(modelItem => item.Votes)
+                        </h6>
+
+                        @if (item.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+                        {
+                            <h6 class="info">
+                                @Html.ActionLink("View Question", "Question", "Question", new { id = item.QuestionID }, null) |
+                                @Html.ActionLink("Edit", "Edit", "Answer", new { id = item.ID }, null) |
+                                @Html.ActionLink("Delete", "Delete", "Answer", new { id = item.ID }, null)
+                            </h6>
+                        }
+
+                        <div class="content">@Html.DisplayFor(modelItem => item.Content)</div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+        }
+        else
+        {
+            <h4>You didn't answered a question yet!</h4>
+        }
+    </div>
+</div>
