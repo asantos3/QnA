@@ -151,3 +151,6 @@ header #search {
 #answerForm .form-group > :last-child {
   margin: 10px 0 0 0;
 }
+.content {
+  white-space: pre-line;
+}

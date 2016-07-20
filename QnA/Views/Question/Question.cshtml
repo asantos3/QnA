@@ -67,9 +67,7 @@
                 @Html.ActionLink("Delete", "Delete", new { id = Model.Questions.ID })
             }
         </h6>
-        <div class="content">
-            @Html.DisplayFor(model => model.Questions.Content)
-        </div>
+        <div class="content">@Html.DisplayFor(model => model.Questions.Content)</div>
     </div>
     <div class="clearfix"></div>
 </div>
@@ -155,9 +153,7 @@
                         </h6>
                     }
                     
-                    <div class="content">
-                        @Html.DisplayFor(modelItem => item.Content)
-                    </div>
+                    <div class="content">@Html.DisplayFor(modelItem => item.Content)</div>
                 </div>
                 <div class="clearfix"></div>
             </div>
