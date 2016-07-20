@@ -32,7 +32,7 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Answers answers = db.Answers.Find(id);
-            if (answers == null && answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            if (answers == null || answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
             {
                 return HttpNotFound();
             }
@@ -48,7 +48,7 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Answers answers = db.Answers.Find(id);
-            if (answers == null && answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            if (answers == null || answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
             {
                 return HttpNotFound();
             }
@@ -85,7 +85,7 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Answers answers = db.Answers.Find(id);
-            if (answers == null && answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            if (answers == null || answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
             {
                 return HttpNotFound();
             }
@@ -99,7 +99,7 @@ namespace QnA.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Answers answers = db.Answers.Find(id);
-            if (answers == null && answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            if (answers == null || answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
             {
                 return HttpNotFound();
             }

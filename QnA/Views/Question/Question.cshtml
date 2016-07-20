@@ -92,7 +92,7 @@
                 <p>@Html.ValidationMessageFor(model => model.Answers.Content, "", new { @class = "text-danger" })</p>
                 @Html.EditorFor(model => model.Answers.Content, new { htmlAttributes = new { @class = "form-control", @rows = 8 } })
                 @Html.HiddenFor(model => model.Answers.QuestionID)
-                <input type="submit" value="Answer" class="btn btn-default" />
+                <input type="submit" value="Answer" class="btn btn-primary" />
             </div>
         }
     </div>

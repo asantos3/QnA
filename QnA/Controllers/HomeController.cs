@@ -21,6 +21,11 @@ namespace QnA.Controllers
             return QuestionFilter(sort, page, q, param);
         }
 
+        public ActionResult NotFound()
+        {
+            return View();
+        }
+
         // Search Form
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -34,7 +39,7 @@ namespace QnA.Controllers
             {
                 TempData["SearchError"] = "The search cannot be empty.";
             }
-            return RedirectToAction("Index");
+            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
 
         public ActionResult QuestionFilter(string sort, int? page, string q, string param)
