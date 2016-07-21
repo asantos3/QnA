@@ -5,6 +5,9 @@ namespace QnA.Models
     using System.Data.Entity;
     using System.Linq;
     using System.Web.Mvc;
+
+    // view model used in the ManageAdmins views so we can retrieve all normal
+    // regitered users and admins
     public class UserRolesViewModel : DbContext
     {
         public UserRolesViewModel()

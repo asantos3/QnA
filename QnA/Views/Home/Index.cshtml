@@ -40,9 +40,13 @@
                     string btnNegative = "btn-default";
                     if (item.QuestionsVotes.Count > 0)
                     {
-                        var currentUserQuestion = item.QuestionsVotes.Where(q => q.UserID == User.Identity.GetUserId() && q.QuestionID == item.ID).First();
-                        btnPositive = currentUserQuestion.VotedPositive == true ? "btn-primary" : "btn-default";
-                        btnNegative = currentUserQuestion.VotedNegative == true ? "btn-primary" : "btn-default";
+                        try
+                        {
+                            var currentUserQuestion = item.QuestionsVotes.Where(q => q.UserID == User.Identity.GetUserId() && q.QuestionID == item.ID).First();
+                            btnPositive = currentUserQuestion.VotedPositive == true ? "btn-primary" : "btn-default";
+                            btnNegative = currentUserQuestion.VotedNegative == true ? "btn-primary" : "btn-default";
+                        }
+                        catch{}
                     }
                     <div class="pull-left votes">
                         <div class="btn-group-vertical" role="group" aria-label="...">

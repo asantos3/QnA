@@ -13,7 +13,7 @@ namespace QnA.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Index/Question/5
+        // GET: Index/Question/id
         public ActionResult Question(int id)
         {
             QuestionsAnswersViewModel qa = new QuestionsAnswersViewModel();
@@ -30,7 +30,7 @@ namespace QnA.Controllers
             return View(qa);
         }
 
-        // POST: Answers/Create
+        // POST: Creates an answer inside of the question view
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -110,7 +110,7 @@ namespace QnA.Controllers
             return View(questions);
         }
 
-        // GET: Questions/Edit/5
+        // GET: Questions/Edit/id
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -126,7 +126,7 @@ namespace QnA.Controllers
             return View(questions);
         }
 
-        // POST: Questions/Edit/5
+        // POST: Edit a question
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -147,7 +147,7 @@ namespace QnA.Controllers
             return View(questions);
         }
 
-        // GET: Questions/Delete/5
+        // GET: Questions/Delete/id
         [Authorize]
         public ActionResult Delete(int? id)
         {
@@ -163,7 +163,7 @@ namespace QnA.Controllers
             return View(questions);
         }
 
-        // POST: Questions/Delete/5
+        // POST: Delete a question
         [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -275,7 +275,7 @@ namespace QnA.Controllers
             }
         }
 
-        // Sel.ect the correct answer for the question
+        // Select the correct answer for the question
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]

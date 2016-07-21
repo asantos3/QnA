@@ -23,7 +23,7 @@ namespace QnA.Controllers
             return View(answers.ToList());
         }
 
-        // GET: Answers/Details/5
+        // GET: Answers/Details/id
         [Authorize(Roles = "Administrator")]
         public ActionResult Details(int? id)
         {
@@ -32,14 +32,14 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Answers answers = db.Answers.Find(id);
-            if (answers == null || answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            if (answers == null)
             {
                 return HttpNotFound();
             }
             return View(answers);
         }
 
-        // GET: Answers/Edit/5
+        // GET: Answers/Edit/id
         [Authorize(Roles = "Administrator")]
         public ActionResult Edit(int? id)
         {
@@ -48,20 +48,20 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Answers answers = db.Answers.Find(id);
-            if (answers == null || answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            if (answers == null)
             {
                 return HttpNotFound();
             }
             return View(answers);
         }
 
-        // POST: Answers/Edit/5
+        // POST: Edit an answer
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Content")] Answers answers)
         {
-            if (ModelState.IsValid && answers.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+            if (ModelState.IsValid)
             {
                 var x = db.Answers.Where(u => u.ID == answers.ID).First();
                 answers.QuestionID = x.QuestionID;
@@ -76,7 +76,7 @@ namespace QnA.Controllers
             return View(answers);
         }
 
-        // GET: Answers/Delete/5
+        // GET: Answers/Delete/id
         [Authorize(Roles = "Administrator")]
         public ActionResult Delete(int? id)
         {
@@ -85,21 +85,21 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Answers answers = db.Answers.Find(id);
-            if (answers == null || answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            if (answers == null)
             {
                 return HttpNotFound();
             }
             return View(answers);
         }
 
-        // POST: Answers/Delete/5
+        // POST: Delete an answer
         [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Answers answers = db.Answers.Find(id);
-            if (answers == null || answers.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            if (answers == null)
             {
                 return HttpNotFound();
             }

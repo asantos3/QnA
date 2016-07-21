@@ -13,7 +13,7 @@ namespace QnA.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: AddAdmin
+        // GET: ManageAdmin
         [Authorize(Roles = "Administrator")]
         public ActionResult ManageAdmin()
         {
@@ -23,6 +23,7 @@ namespace QnA.Controllers
             return View(UserRoles);
         }
 
+        // Post: Add a administrator and redirect to ManageAdmin action
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -30,14 +31,14 @@ namespace QnA.Controllers
         {
             if (Users != null)
             {
-                var _context = new ApplicationDbContext();
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
                 UserManager.AddToRole(Users, "Administrator");
             }
             
             return RedirectToAction("ManageAdmin");
         }
 
+        // Post: Remove a administrator and redirect to ManageAdmin action
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -45,8 +46,7 @@ namespace QnA.Controllers
         {
             if (Admins != null)
             {
-                var _context = new ApplicationDbContext();
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
                 UserManager.RemoveFromRole(Admins, "Administrator");
             }
 

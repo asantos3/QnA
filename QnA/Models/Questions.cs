@@ -45,6 +45,7 @@ namespace QnA.Models
 
         public virtual ICollection<Answers> Answers { get; set; }
         public virtual ICollection<QuestionsTags> Tags { get; set; }
+        // So it's possible to detect if the question was upvoted or downvoted
         public virtual ICollection<QuestionsVotes> QuestionsVotes { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace QnA.Controllers
             return View(questions.ToList());
         }
 
-        // GET: Questions/Details/5
+        // GET: Questions/Details/id
         [Authorize(Roles = "Administrator")]
         public ActionResult Details(int? id)
         {
@@ -41,7 +41,7 @@ namespace QnA.Controllers
             return View(questions);
         }
 
-        // GET: Questions/Edit/5
+        // GET: Questions/Edit/id
         [Authorize(Roles = "Administrator")]
         [Authorize]
         public ActionResult Edit(int? id)
@@ -58,7 +58,7 @@ namespace QnA.Controllers
             return View(questions);
         }
 
-        // POST: Questions/Edit/5
+        // POST: Edit a question
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -79,7 +79,7 @@ namespace QnA.Controllers
             return View(questions);
         }
 
-        // GET: Questions/Delete/5
+        // GET: Questions/Delete/id
         [Authorize(Roles = "Administrator")]
         public ActionResult Delete(int? id)
         {
@@ -95,7 +95,7 @@ namespace QnA.Controllers
             return View(questions);
         }
 
-        // POST: Questions/Delete/5
+        // POST: Delete a question
         [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

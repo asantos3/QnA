@@ -37,6 +37,7 @@ namespace QnA.Models
         [ForeignKey("User")]
         public string UserID { get; set; }
 
+        // So it's possible to detect if the answer was upvoted or downvoted
         public virtual ICollection<AnswersVotes> AnswersVotes { get; set; }
     }
 }

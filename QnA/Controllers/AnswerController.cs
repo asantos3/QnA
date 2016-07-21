@@ -13,7 +13,7 @@ namespace QnA.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Answers/Edit/5
+        // GET: Answers/Edit/id
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -29,7 +29,7 @@ namespace QnA.Controllers
             return View(answers);
         }
 
-        // POST: Answers/Edit/5
+        // POST: Edit a answer and redirect to the question
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -51,7 +51,7 @@ namespace QnA.Controllers
             return View(answers);
         }
 
-        // GET: Answers/Delete/5
+        // GET: Answers/Delete/id
         [Authorize]
         public ActionResult Delete(int? id)
         {
@@ -67,7 +67,7 @@ namespace QnA.Controllers
             return View(answers);
         }
 
-        // POST: Answers/Delete/5
+        // POST: Delete a answer and redirect to the question
         [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -154,7 +154,7 @@ namespace QnA.Controllers
                     answers.Votes = answers.Votes - 1;
                 }
                 else {
-                    // downvote as answer
+                    // downvote an answer
                     if (votes.VotedPositive == false && votes.VotedNegative == false)
                     {
                         votes.VotedNegative = true;

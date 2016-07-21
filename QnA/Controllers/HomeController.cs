@@ -14,6 +14,7 @@ namespace QnA.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Index
+        // return to QuestionFilter so we can have pagination and filtering on Home/Index
         public ActionResult Index(string sort, int? page, string q, string param)
         {
             ViewBag.q = q;
@@ -21,6 +22,8 @@ namespace QnA.Controllers
             return QuestionFilter(sort, page, q, param);
         }
 
+        // GET: Profile
+        // information about the user and a list of their questions and answers
         public new ActionResult Profile()
         {
             QuestionsAnswersViewModel qa = new QuestionsAnswersViewModel();
@@ -43,7 +46,8 @@ namespace QnA.Controllers
             return View();
         }
 
-        // Search Form
+        // Post: Search
+        // The search is redirected to the Index action because it's where it's gonna be viewed
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Search(string param)
@@ -52,18 +56,24 @@ namespace QnA.Controllers
             {
                 string q = "search";
                 return RedirectToAction("Index", new { sort = "newer", page = 1, q = q, param = param });
-            } else
+            }
+            else
             {
                 TempData["SearchError"] = "The search cannot be empty.";
             }
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
 
+        // Filter questions based on parameters: sorting, pagination and filtering/search
         public ActionResult QuestionFilter(string sort, int? page, string q, string param)
         {
-            if (sort == null && Session["CurrentSort"] == null) {
+            // Session 
+            if (sort == null && Session["CurrentSort"] == null)
+            {
                 sort = "newer";
-            } else if (sort == null && Session["CurrentSort"] != null) {
+            }
+            else if (sort == null && Session["CurrentSort"] != null)
+            {
                 sort = Session["CurrentSort"].ToString();
             }
             Session["CurrentSort"] = sort;
@@ -100,6 +110,7 @@ namespace QnA.Controllers
                     break;
             }
 
+            // search, or filter by the current user or a tag
             switch (q)
             {
                 case "user":
@@ -115,7 +126,8 @@ namespace QnA.Controllers
                         ViewBag.SearchParam = db.Tags.Find(tagID).Name;
                         questions = questions.Where(x => x.Tags.Any(m => m.TagID == tagID));
                     }
-                    catch {
+                    catch
+                    {
                         ViewBag.CurrentSearch = "all";
                     }
                     break;
@@ -126,6 +138,19 @@ namespace QnA.Controllers
             int pageSize = 3;
             int pageNumber = (page ?? 1);
             return View(questions.ToPagedList(pageNumber, pageSize));
+        }
+
+        // GET: Home/CookiePolicy
+        // Mandatory due to the european cookie law
+        public ActionResult CookiePolicy()
+        {
+            return View();
+        }
+
+        // GET: Home/About
+        public ActionResult About()
+        {
+            return View();
         }
     }
 }

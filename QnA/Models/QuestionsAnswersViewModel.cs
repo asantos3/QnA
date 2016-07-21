@@ -5,6 +5,7 @@ namespace QnA.Models
     using System.Data.Entity;
     using System.Linq;
 
+    // view model used in the Question and Profile view so we have all of the questions and answers
     public class QuestionsAnswersViewModel
     {
         public QuestionsAnswersViewModel()
