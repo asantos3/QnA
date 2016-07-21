@@ -1,0 +1,42 @@
+﻿@model QnA.Models.UserRolesViewModel
+
+@{
+    ViewBag.Title = "QnA - Add a new administrator";
+}
+
+<h2>Add a new administrator</h2>
+
+<h4>Current administrators</h4>
+
+<ul>
+    @if (Model != null)
+    {
+        foreach (var item in Model.Admins)
+        {
+            <li>@item.Text</li>
+        }
+    }
+</ul>
+     
+
+<hr />
+
+<h4>Add a new administrator</h4>
+
+@using (Html.BeginForm("AddAdmin", "Administrator"))
+{
+    @Html.AntiForgeryToken()
+    <p>@Html.DropDownListFor(m => m.Users, Model.Users, new { @class = "form-control" })</p>
+    <p><button class="btn btn-primary" type="submit">Add</button></p>
+}
+
+<hr />
+
+<h4>Remove a administrator</h4>
+
+@using (Html.BeginForm("RemoveAdmin", "Administrator"))
+{
+    @Html.AntiForgeryToken()
+    <p>@Html.DropDownListFor(m => m.Admins, Model.Admins, new { @class = "form-control" })</p>
+    <p><button class="btn btn-primary" type="submit">Remove</button></p>
+}
