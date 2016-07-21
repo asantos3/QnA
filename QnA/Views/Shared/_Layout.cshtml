@@ -77,7 +77,6 @@
             {
                 @Html.AntiForgeryToken()
                 <span class="field-validation-valid text-danger" data-val="true" data-valmsg-for="param" data-val-required="The UserName field is required.">@TempData["SearchError"]</span>
-                <p>@Html.ValidationMessage("param", "", new { @class = "text-danger" })</p>
                 <div class="input-group">
                     <input type="text" id="param" name="param" class="form-control" placeholder="Search for questions.">
                     <span class="input-group-btn">

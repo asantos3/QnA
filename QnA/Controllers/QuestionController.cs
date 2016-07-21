@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNet.Identity;
 using QnA.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Web;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using System.Linq;
+using System.Data.Entity;
 
 namespace QnA.Controllers
 {
@@ -61,23 +61,51 @@ namespace QnA.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Content,Date,Votes,Views,UserID")] Questions questions)
+        public ActionResult Create([Bind(Include = "ID,Title,Content,Date,Votes,Views,UserID")] Questions questions, string tag)
         {
             if (ModelState.IsValid)
             {
-                var x = new QuestionsTags();
-                x.Tag = new Tags();
-                x.Tag.Name = "Teste"; // test value
-                x.Question = questions;
-                questions.Tags.Add(x);
+                if (!String.IsNullOrWhiteSpace(tag))
+                {
+                    if (new Regex(@"[^A-Za-z,]+").Match(tag).Success || new Regex(@"(,,)").Match(tag).Success || new Regex(@",$").Match(tag).Success)
+                    {
+                        ModelState.AddModelError("Tags", "Don't use two commas in a row, a comma in the end, numbers, whitespace or especial characters.");
+                        return View(questions);
+                    } else
+                    {
+                        Regex regexPattern = new Regex(@"[A-Za-z]+");
 
-                questions.Date = DateTime.Now;
-                questions.Votes = 0;
-                questions.Views = 0;
-                questions.UserID = User.Identity.GetUserId();
-                db.Questions.Add(questions);
-                db.SaveChanges();
-                return RedirectToAction(questions.ID + "");
+                        foreach (Match item in regexPattern.Matches(tag))
+                        {
+                            string it = item.ToString();
+                            var x = new QuestionsTags();
+
+                            var y = db.Tags.Where(u => u.Name == it);
+                            if (y.FirstOrDefault() != null)
+                            {
+                                x.TagID = db.Tags.Where(u => u.Name == it).First().ID;
+                            } else {
+                                x.Tag = new Tags();
+                                x.Tag.Name = item.ToString();
+                            }
+
+                            x.Question = questions;
+                            questions.Tags.Add(x);
+                        }
+
+                        questions.Date = DateTime.Now;
+                        questions.Votes = 0;
+                        questions.Views = 0;
+                        questions.UserID = User.Identity.GetUserId();
+                        db.Questions.Add(questions);
+                        db.SaveChanges();
+                        return RedirectToAction(questions.ID + "");
+                    }
+                } else
+                {
+                    ModelState.AddModelError("Tags", "At least a tag is required, please insert it.");
+                    return View(questions);
+                }
             }
             return View(questions);
         }
