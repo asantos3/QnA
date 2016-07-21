@@ -274,5 +274,23 @@ namespace QnA.Controllers
                 return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
             }
         }
+
+        // Sel.ect the correct answer for the question
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CorrectAnswer(int id, int questionID)
+        {
+            Questions questions = db.Questions.Find(questionID);
+            if (questions == null)
+            {
+                return HttpNotFound();
+            }
+            else {
+                questions.CorrectAnswerID = id;
+                db.SaveChanges();
+                return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+            }
+        }
     }
 }

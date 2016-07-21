@@ -37,6 +37,8 @@ namespace QnA.Models
         [Required]
         public int Views { get; set; }
 
+        public int? CorrectAnswerID { get; set; }
+
         public virtual ApplicationUser User { get; set; }
         [ForeignKey("User")]
         public string UserID { get; set; }

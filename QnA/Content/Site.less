@@ -6,6 +6,8 @@
 @base-hover: #4980ae;
 @accent: #FFBE65;
 @accent-border: #FFAC2F;
+@success: #5cb85c;
+@success-border: #4cae4c;
 
 
 /* Start of Bootstrap Override */
@@ -39,6 +41,20 @@ a:hover {
     border-color: @base-border;
 }
 
+.btn-default:active:hover,
+.btn-default.active:hover,
+.open > .dropdown-toggle.btn-default:hover,
+.btn-default:active:focus,
+.btn-default.active:focus,
+.open > .dropdown-toggle.btn-default:focus,
+.btn-default:active.focus,
+.btn-default.active.focus,
+.open > .dropdown-toggle.btn-default.focus {
+    color: @white;
+    background-color: @base;
+    border-color: @base-border;
+}
+
 .accent.btn-default,
 .accent.btn-default:hover,
 .accent.btn-default:focus,
@@ -52,6 +68,7 @@ a:hover {
 
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
     background-color: @base;
+    color: @light-gray;
 }
 
 .pagination > .active > a,
@@ -133,6 +150,17 @@ header .nav .open > a:focus {
     border-color: @dark-gray;
 }
 
+header .nav > li > a:hover,
+header .nav > li > a:focus {
+    color: @dark-gray;
+}
+
+header .nav > li > a:hover .caret,
+header .nav > li > a:focus .caret {
+    border-top-color: @dark-gray;
+    border-bottom-color: @dark-gray;
+}
+
 header #search {
     margin: 20px 0 0 0;
 }
@@ -156,6 +184,14 @@ header #search {
 
 .entry .votes .votes-number {
     margin: 0;
+}
+
+.entry .votes .correct:hover,
+.entry .votes .correct.btn-default:active,
+.entry .votes .correct.btn-default:focus,
+.entry .votes .correct.btn-default:active:focus {
+    background-color: @success;
+    border-color: @success-border;
 }
 
 .entry .thing .title {

@@ -31,8 +31,8 @@
                 @using (Html.BeginForm("Upvote", "Question", new { id = Model.Questions.ID }))
                 {
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-xs @btnPositive">
-                        &#x25B2;
+                    <button type="submit" class="btn btn-xs @btnPositive" aria-label="Left Align">
+                        <span class="glyphicon glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
                     </button>
                 }
 
@@ -41,12 +41,12 @@
                 @using (Html.BeginForm("Downvote", "Question", new { id = Model.Questions.ID }))
                 {
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-xs @btnNegative">
-                        &#x25BC;
+                    <button type="submit" class="btn btn-xs @btnNegative" aria-label="Left Align">
+                        <span class="glyphicon glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                     </button>
                 }
+                </div>
             </div>
-        </div>
     }
     <div class="thing">
         <h3 class="title">
@@ -102,7 +102,7 @@
     <h4>Answers</h4>
 
     <div id="answers">
-        
+
         @foreach (var item in Model.Questions.Answers.OrderByDescending(i => i.Date))
         {
             <div class="entry">
@@ -110,33 +110,44 @@
                 {
                     string btnPositive = "btn-default";
                     string btnNegative = "btn-default";
-                if (item.AnswersVotes.Count > 0)
-                {
-                    var currentUserQuestion = item.AnswersVotes.Where(q => q.UserID == User.Identity.GetUserId() && q.AnswerID == item.ID).First();
-                    btnPositive = currentUserQuestion.VotedPositive == true ? "btn-primary" : "btn-default";
-                    btnNegative = currentUserQuestion.VotedNegative == true ? "btn-primary" : "btn-default";
-                }
-                <div class="pull-left votes">
-                    <div class="btn-group-vertical" role="group" aria-label="...">
-                        @using (Html.BeginForm("Upvote", "Answer", new { id = item.ID }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-xs @btnPositive">
-                                &#x25B2;
-                            </button>
-                        }
+                    string btnCorrect = item.ID == Model.Questions.CorrectAnswerID ? "btn-success" : "btn-default"; ;
+                    if (item.AnswersVotes.Count > 0)
+                    {
+                        var currentUserQuestion = item.AnswersVotes.Where(q => q.UserID == User.Identity.GetUserId() && q.AnswerID == item.ID).First();
+                        btnPositive = currentUserQuestion.VotedPositive == true ? "btn-primary" : "btn-default";
+                        btnNegative = currentUserQuestion.VotedNegative == true ? "btn-primary" : "btn-default";
+                    }
+                    <div class="pull-left votes">
+                        <div class="btn-group-vertical" role="group" aria-label="...">
+                            @using (Html.BeginForm("Upvote", "Answer", new { id = item.ID }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-xs @btnPositive" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                                </button>
+                            }
 
-                        <p class="votes-number">@Html.DisplayFor(modelItem => item.Votes)</p>
+                            <p class="votes-number">@Html.DisplayFor(modelItem => item.Votes)</p>
 
-                        @using (Html.BeginForm("Downvote", "Answer", new { id = item.ID }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-xs @btnNegative">
-                                &#x25BC;
-                            </button>
-                        }
+                            @using (Html.BeginForm("Downvote", "Answer", new { id = item.ID }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-xs @btnNegative" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                                </button>
+                            }
+                            @if (User.Identity.GetUserId() == Model.Questions.UserID)
+                            {
+                                using (Html.BeginForm("CorrectAnswer", "Question", new { id = item.ID, questionID = item.QuestionID }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-xs @btnCorrect correct" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    </button>
+                                }
+                            }
+                        </div>
                     </div>
-                </div>
                 }
                 <div class="thing">
                     <h6 class="info">
@@ -144,7 +155,7 @@
                         User: @Html.DisplayFor(modelItem => item.User.UserName) |
                         Votes: @Html.DisplayFor(modelItem => item.Votes)
                     </h6>
-                    
+
                     @if (item.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))
                     {
                         <h6 class="info">
@@ -152,7 +163,7 @@
                             @Html.ActionLink("Delete", "Delete", "Answer", new { id = item.ID }, null)
                         </h6>
                     }
-                    
+
                     <div class="content">@Html.DisplayFor(modelItem => item.Content)</div>
                 </div>
                 <div class="clearfix"></div>
