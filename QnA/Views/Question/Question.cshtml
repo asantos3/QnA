@@ -58,6 +58,23 @@
             Votes: @Html.DisplayFor(model => model.Questions.Votes) |
             Views: @Html.DisplayFor(model => model.Questions.Views) |
             Answers: @Html.DisplayFor(model => model.Questions.Answers.Count)
+            @if (Model.Questions.Tags.Count > 0)
+            {
+                var i = 0;
+                var count = Model.Questions.Tags.Count;
+                @:Tags:
+                foreach (var itemTag in Model.Questions.Tags)
+                {
+                    if (++i != count)
+                    {
+                        <a href="@Url.Action("Index", "Home", new {q = "tags", param = itemTag.TagID})">@Html.DisplayFor(modelItemTag => itemTag.Tag.Name)</a>@:,
+                                }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Home", new {q = "tags", param = itemTag.TagID})">@Html.DisplayFor(modelItemTag => itemTag.Tag.Name)</a>
+                    }
+                }
+            }
         </h6>
         <h6 class="info">
             @if (Model.Questions.UserID == User.Identity.GetUserId() || User.IsInRole("Administrator"))

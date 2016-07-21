@@ -49,8 +49,8 @@
                             @using (Html.BeginForm("Upvote", "Question", new { id = item.ID }))
                             {
                                 @Html.AntiForgeryToken()
-                                <button type = "submit" class="btn btn-xs @btnPositive">
-                                    &#x25B2;
+                                <button type="submit" class="btn btn-xs @btnPositive" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
                                 </button>
                             }
 
@@ -59,8 +59,8 @@
                             @using (Html.BeginForm("Downvote", "Question", new { id = item.ID }))
                             {
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-xs @btnNegative">
-                                    &#x25BC;
+                                <button type="submit" class="btn btn-xs @btnNegative" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                                 </button>
                             }
                         </div>
@@ -75,7 +75,24 @@
                         User: @Html.DisplayFor(modelItem => item.User.UserName) |
                         Votes: @Html.DisplayFor(modelItem => item.Votes) |
                         Views: @Html.DisplayFor(modelItem => item.Views) |
-                        Answers: @Html.DisplayFor(modelItem => item.Answers.Count)
+                        Answers: @Html.DisplayFor(modelItem => item.Answers.Count) |
+                        @if (item.Tags.Count > 0)
+                        {
+                            var i = 0;
+                            var count = item.Tags.Count;
+                            @:Tags:
+                            foreach (var itemTag in item.Tags)
+                            {
+                                if (++i != count)
+                                {
+                                    <a href="@Url.Action("Index", new {q = "tags", param = itemTag.TagID})">@Html.DisplayFor(modelItemTag => itemTag.Tag.Name)</a>@:,
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Index", new {q = "tags", param = itemTag.TagID})">@Html.DisplayFor(modelItemTag => itemTag.Tag.Name)</a>
+                                }
+                            }
+                        }
                     </h6>
                     <h6 class="info">
                         @Html.ActionLink("View More", "Question", "Question", new { id = item.ID }, null)

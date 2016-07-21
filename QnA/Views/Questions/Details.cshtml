@@ -80,6 +80,29 @@
         <dd>
             @Model.Answers.Count()
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+
+        <dd>
+            @if (Model.Tags.Count > 0)
+            {
+                var i = 0;
+                var count = Model.Tags.Count;
+                foreach (var itemTag in Model.Tags)
+                {
+                    if (++i != count)
+                    {
+                        <a href="@Url.Action("Index", "Home", new {q = "tags", param = itemTag.TagID})">@Html.DisplayFor(modelItemTag => itemTag.Tag.Name)</a>@:,
+                                }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Home", new {q = "tags", param = itemTag.TagID})">@Html.DisplayFor(modelItemTag => itemTag.Tag.Name)</a>
+                    }
+                }
+            }
+        </dd>
     </dl>
 </div>
 
@@ -94,7 +117,7 @@
     <p>
         Date: @Html.DisplayFor(modelItem => item.Date) |
         User: @Html.DisplayFor(modelItem => item.User.UserName) |
-        Votes: @Html.DisplayFor(modelItem => item.Votes)
+        Votes: @Html.DisplayFor(modelItem => item.Votes) |
     </p>    
     <p>@Html.DisplayFor(modelItem => item.Content)</p>
     <br />

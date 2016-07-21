@@ -108,6 +108,17 @@ namespace QnA.Controllers
                 case "search":
                     questions = questions.Where(x => x.Title.Contains(param) || x.Content.Contains(param));
                     break;
+                case "tags":
+                    try
+                    {
+                        int tagID = Int32.Parse(param);
+                        ViewBag.SearchParam = db.Tags.Find(tagID).Name;
+                        questions = questions.Where(x => x.Tags.Any(m => m.TagID == tagID));
+                    }
+                    catch {
+                        ViewBag.CurrentSearch = "all";
+                    }
+                    break;
                 default:
                     break;
             }

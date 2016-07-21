@@ -32,6 +32,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Answers)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tags)
+        </th>
         <th></th>
     </tr>
 
@@ -62,8 +65,26 @@
             @item.Answers.Count()
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @if (item.Tags.Count > 0)
+            {
+                var i = 0;
+                var count = item.Tags.Count;
+                foreach (var itemTag in item.Tags)
+                {
+                    if (++i != count)
+                    {
+                        <a href="@Url.Action("Index", "Home", new {q = "tags", param = itemTag.TagID})">@Html.DisplayFor(modelItemTag => itemTag.Tag.Name)</a>@:,
+                                }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Home", new {q = "tags", param = itemTag.TagID})">@Html.DisplayFor(modelItemTag => itemTag.Tag.Name)</a>
+                    }
+                }
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) <br />
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) <br />
             @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
     </tr>
