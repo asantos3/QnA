@@ -119,7 +119,7 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Questions questions = db.Questions.Find(id);
-            if (questions == null || questions.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            if (questions == null || questions.UserID != User.Identity.GetUserId() && !User.IsInRole("Administrator"))
             {
                 return HttpNotFound();
             }
@@ -156,7 +156,7 @@ namespace QnA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Questions questions = db.Questions.Find(id);
-            if (questions == null || questions.UserID != User.Identity.GetUserId() || !User.IsInRole("Administrator"))
+            if (questions == null || questions.UserID != User.Identity.GetUserId() && !User.IsInRole("Administrator"))
             {
                 return HttpNotFound();
             }
