@@ -22,3 +22,4 @@ A Questions & Answers platform on ASP MVC 5
   + Manage Administrators
 
 This project right now uses the cookie consent plugin by Silktide.
+It has a few features missing, most prominent a 'tags' feature, and a few bugs that need to be iron out.
