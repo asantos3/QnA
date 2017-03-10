@@ -2,6 +2,8 @@
 
 A Questions & Answers platform on ASP MVC 5
 
+![Screenshot](https://raw.githubusercontent.com/asantos3/QnA/master/Screenshots/Screen%20Shot%202016-07-22%20at%2000.18.13.png "Screenshot")
+
 ## Features
 
 * Create, edit and delete questions
